@@ -13,7 +13,7 @@ bool handleException(Object exception, {bool Function(ApiException)? onError}) {
   }
 
   IToast.show(
-    apiException.msg ?? ApiException.unknownException,
+    apiException.message ?? ApiException.unknownException,
     position: IToastPosition.center,
   );
 

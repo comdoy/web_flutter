@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:web_flutter/components/components.dart';
 import 'package:web_flutter/model/model.dart';
-import 'package:web_flutter/view-seo/seo-management/management.dart';
 import 'package:web_flutter/view-seo/view/blocs/add_account_bloc.dart';
+import 'package:web_flutter/view-seo/view/components/site_settings_view.dart';
 
 class AddAccountPage extends StatelessWidget {
   const AddAccountPage({super.key});
@@ -67,7 +67,7 @@ class AddAccountPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(bloc.servers ?? "请选"),
-                            onRefreshDomain(data, bloc),
+                            onRefreshDomain(bloc),
                           ],
                         ),
                       )
@@ -92,7 +92,6 @@ class AddAccountPage extends StatelessWidget {
   }
 
   Widget onRefreshDomain(
-    List<AccountModelEntity>? data,
     AddAccountBloc bloc,
   ) {
     return MenuAnchor(
@@ -115,28 +114,19 @@ class AddAccountPage extends StatelessWidget {
         );
       },
       menuChildren: [
-        ...data?.map(
+        ...bloc.listModel.map(
               (e) {
                 return MenuItemButton(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(e.serverId),
+                    child: Text(e.id),
                   ),
-                  onPressed: () => bloc.onMenu(e.serverId),
+                  onPressed: () => bloc.onMenu(e.id),
                 );
               },
-            ).toList() ??
-            [],
+            ).toList(),
       ],
     );
   }
 }
 
-List<String> titleModel = [
-  "全部状态",
-  "禁用站点",
-  "等待建站",
-  "建站中",
-  "建站完成",
-  "建站失败",
-];

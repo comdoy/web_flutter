@@ -4,12 +4,12 @@ import 'dart:convert';
 class ApiResponseEntity<T> {
   late bool status;
   late String message;
-  late T data;
+  late T? data;
 
   ApiResponseEntity();
 
   factory ApiResponseEntity.fromJson(Map<String, dynamic> json) =>
-      $ApiResponseEntityFromJson(json);
+      $ApiResponseEntityFromJson<T>(json);
 
   Map<String, dynamic> toJson() => $ApiResponseEntityToJson(this);
 

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:web_flutter/components/components.dart';
-import 'package:web_flutter/view-seo/seo-management/management.dart';
+import 'package:web_flutter/view-seo/view/components/model.dart';
 import 'package:web_flutter/view-seo/view/blocs/complaint_bloc.dart';
+import 'package:web_flutter/view-seo/view/components/site_settings_view.dart';
 
 class ComplaintPage extends StatelessWidget {
   const ComplaintPage({super.key});

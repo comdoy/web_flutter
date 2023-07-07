@@ -11,4 +11,6 @@ class APIS {
   static const delete = "/worker/delete";
 
   static const reason = "/worker/add_reason";
+
+  static const addServer = "/worker/add_server";
 }

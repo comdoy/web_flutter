@@ -10,37 +10,6 @@ typedef ValueCallback<T, S> = T Function(S);
 /// 路由函数回调
 typedef RouteCallback<T> = void Function(T data, String key);
 
-/// push进入一个新界面
-Future pushPage(context, Widget page) async {
-  await CupertinoSwipeBackObserver.promise?.future;
-  return await Navigator.push(
-    context,
-    MaterialPageRoute(builder: (ctx) => page, maintainState: true),
-  );
-}
-
-Future pushNamed(context, String name, [args]) async {
-  await CupertinoSwipeBackObserver.promise?.future;
-  return await Navigator.pushNamed(context, name, arguments: args);
-}
-
-Future pushNamedAndRemoveUntil(
-    BuildContext context, String newRouteName, String predicateName,
-    [Object? args]) async {
-  return await Navigator.pushNamedAndRemoveUntil(
-    context,
-    newRouteName,
-    ModalRoute.withName(predicateName),
-    arguments: args,
-  );
-}
-
-Future<T?> pushReplacementNamed<T>(BuildContext context, String newRouteName,
-    [Object? args]) async {
-  return await Navigator.pushReplacementNamed<T, dynamic>(context, newRouteName,
-      arguments: args);
-}
-
 bool isNull(Object? data) {
   if (data == null) return true;
 

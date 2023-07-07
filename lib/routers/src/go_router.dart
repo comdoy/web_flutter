@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:web_flutter/components/common/constant.dart';
-import 'package:web_flutter/consts/consts.dart';
 import 'package:web_flutter/view-pages/page.dart';
 import 'package:web_flutter/view-seo/seo.dart';
-import 'package:web_flutter/view-seo/seo-management/management.dart';
 import 'package:web_flutter/view-seo/view/blocs/add_account_bloc.dart';
+import 'package:web_flutter/view-seo/view/blocs/add_reason_bloc.dart';
 import 'package:web_flutter/view-seo/view/blocs/add_server_bloc.dart';
 import 'package:web_flutter/view-seo/view/blocs/complaint_bloc.dart';
 import 'package:web_flutter/view-seo/view/blocs/reason_deleton_bloc.dart';
 import 'package:web_flutter/view-seo/view/pages/add_account_page.dart';
+import 'package:web_flutter/view-seo/view/pages/add_reason_page.dart';
 import 'package:web_flutter/view-seo/view/pages/add_server_page.dart';
 import 'package:web_flutter/view-seo/view/pages/complaint_page.dart';
 import 'package:web_flutter/view-seo/view/pages/reason_deleton_page.dart';
@@ -25,6 +25,7 @@ class AppRouters {
   static const String addServerPath = '/add_server';
   static const String reasonDeletonPath = '/reason_deleton';
   static const String addAccountPath = '/add_account';
+  static const String addReasonPath = '/add_reason';
 
   /// 用于 命名路由的常量
   static const String homeNamed = 'home_page';
@@ -33,23 +34,7 @@ class AppRouters {
   static const String addServerNamed = 'add_server';
   static const String reasonDeletonNamed = 'reason_deleton';
   static const String addAccountNamed = 'add_account';
-
-  ///网站管理
-  ///path
-  static const String siteSettingsPath = "/site_settings";
-  static const String friendlyLinksPath = "/friendly_links";
-  static const String nginxConfigPath = "/nainx_config";
-  static const String statisticsPath = "/statistics";
-  static const String advertisingPath = "/advertising";
-  static const String templatePath = "/template";
-
-  ///named
-  static const String siteSettingsNamed = "site_settings";
-  static const String friendlyLinksNamed = "friendly_links";
-  static const String nginxConfigNamed = "nainx_config";
-  static const String statisticsNamed = "statistics";
-  static const String advertisingNamed = "advertising";
-  static const String templateNamed = "template";
+  static const String addReasonNamed = 'add_reason';
 
   static GoRouter router = GoRouter(
     navigatorKey: rootNavKey,
@@ -60,12 +45,6 @@ class AppRouters {
           // 不传递参数的路由项
           name: homeNamed, // 命名路由
           path: homePath, // 路径路由
-          // builder: (context, state) {
-          //   return Provider<HomeBloc>(
-          //     create: (_) => HomeBloc(),
-          //     child: const HomePage(),
-          //   );
-          // },
           pageBuilder: (BuildContext context, GoRouterState state) {
             return customTransitionPage(
                 child: Provider<HomeBloc>(
@@ -101,116 +80,14 @@ class AppRouters {
               );
             },
           ),
-          // ShellRoute(
-          //   navigatorKey: serverNavKey,
-          //   routes: [
-          //     GoRoute(
-          //       path: siteSettingsPath,
-          //       name: siteSettingsNamed,
-          //       pageBuilder: (context, state) {
-          //         return NoTransitionPage(
-          //           child: Provider<SiteSettingsBloc>(
-          //             create: (_) => SiteSettingsBloc(),
-          //             child: const SiteSettingsPage(),
-          //           ),
-          //         );
-          //       },
-          //     ),
-          //     GoRoute(
-          //       path: friendlyLinksPath,
-          //       name: friendlyLinksNamed,
-          //       pageBuilder: (context, state) {
-          //         return NoTransitionPage(
-          //           child: Provider<FriendlyLinksBloc>(
-          //             create: (_) => FriendlyLinksBloc(),
-          //             child: const FriendlyLinksPage(),
-          //           ),
-          //         );
-          //       },
-          //     ),
-          //     GoRoute(
-          //       path: nginxConfigPath,
-          //       name: nginxConfigNamed,
-          //       pageBuilder: (context, state) {
-          //         return NoTransitionPage(
-          //           child: Provider<NginxConfigBloc>(
-          //             create: (_) => NginxConfigBloc(),
-          //             child: const NginxConfigPage(),
-          //           ),
-          //         );
-          //       },
-          //     ),
-          //     GoRoute(
-          //       path: statisticsPath,
-          //       name: statisticsNamed,
-          //       pageBuilder: (context, state) {
-          //         return NoTransitionPage(
-          //           child: Provider<StatisticsCodeBloc>(
-          //             create: (_) => StatisticsCodeBloc(),
-          //             child: const StatisticsCodePage(),
-          //           ),
-          //         );
-          //       },
-          //     ),
-          //     GoRoute(
-          //       path: advertisingPath,
-          //       name: advertisingNamed,
-          //       pageBuilder: (context, state) {
-          //         return NoTransitionPage(
-          //           child: Provider<AdvertisementSettingBloc>(
-          //             create: (_) => AdvertisementSettingBloc(),
-          //             child: const AdvertisementSettingPage(),
-          //           ),
-          //         );
-          //       },
-          //     ),
-          //     GoRoute(
-          //       path: templatePath,
-          //       name: templateNamed,
-          //       pageBuilder: (context, state) {
-          //         return NoTransitionPage(
-          //           child: Provider<TemplateCodeBloc>(
-          //             create: (_) => TemplateCodeBloc(),
-          //             child: const TemplateCodePage(),
-          //           ),
-          //         );
-          //       },
-          //     ),
-          //   ],
-          //   builder: (context, state, child) {
-          //     final index = state.queryParameters["serverId"];
-          //     DomainNameModel args;
-          //     if (state.extra == null) {
-          //       var model = DomainNameModel(
-          //         "",
-          //         NavigationDrawerType.http,
-          //         "",
-          //       );
-          //       args = model;
-          //     } else {
-          //       args = state.extra as DomainNameModel;
-          //     }
-          //     int id = int.parse(index ?? "0");
-          //     return Provider<SEOTabBarBloc>(
-          //       create: (_) => SEOTabBarBloc(),
-          //       child: SEOTabBarPage(
-          //         state: state,
-          //         id: id,
-          //         model: args,
-          //         child: child,
-          //       ),
-          //     );
-          //   },
-          // ),
-
           GoRoute(
-            path: addServerPath,
-            name: addServerNamed,
+            path: addReasonPath,
+            name: addReasonNamed,
             pageBuilder: (context, state) {
               return NoTransitionPage(
-                child: Provider<AddServerBloc>(
-                  create: (_) => AddServerBloc(),
-                  child: const AddServerPage(),
+                child: Provider<AddReasonBloc>(
+                  create: (_) => AddReasonBloc(),
+                  child: const AddReasonPage(),
                 ),
               );
             },
@@ -227,8 +104,21 @@ class AppRouters {
               );
             },
           ),
+          GoRoute(
+            path: addServerPath,
+            name: addServerNamed,
+            pageBuilder: (context, state) {
+              return NoTransitionPage(
+                child: Provider<AddServerBloc>(
+                  create: (_) => AddServerBloc(),
+                  child: const AddServerPage(),
+                ),
+              );
+            },
+          ),
         ],
         builder: (context, state, child) {
+          final argTaber = state.queryParameters["tab"];
           final args = state.queryParameters["serverId"];
           int id = int.parse(args ?? "0");
           return Provider<SEOHomeBloc>(

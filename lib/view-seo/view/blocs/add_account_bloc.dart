@@ -11,6 +11,7 @@ class AddAccountBloc with BodyMixin<List<AccountModelEntity>> {
   double sliderValue = 5;
 
   PagesScope pageScope = PagesScope();
+
   void onSlider(double value) {
     sliderValue = value;
     maxCountController.text = "$value";
@@ -60,7 +61,7 @@ class AddAccountBloc with BodyMixin<List<AccountModelEntity>> {
       params.cookie = accountController.text;
       params.dayMaxReport = maxCountController.text;
       params.serverId = servers ?? '0';
-      await HomeRequest.postAccount(params: params);
+      await HomeRequest.postAccount(cookie:accountController.text, dayMaxReport:maxCountController.text, serverId:servers ?? '0',);
       UX.hidden();
     } catch (e) {
       UX.hidden();

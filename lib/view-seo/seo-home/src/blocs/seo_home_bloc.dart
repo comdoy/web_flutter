@@ -26,13 +26,19 @@ class SEOHomeBloc with BodyMixin {
         ),
         ITabBarModel(
           AppRouters.addServerNamed,
-          title: "添加投诉理由",
+          title: "添加站点",
           icon: Icons.home_sharp,
           queryParameters: queryParameters,
         ),
         ITabBarModel(
           AppRouters.reasonDeletonNamed,
           title: "删除数据",
+          icon: Icons.home_sharp,
+          queryParameters: queryParameters,
+        ),
+        ITabBarModel(
+          AppRouters.addReasonNamed,
+          title: "添加投诉理由",
           icon: Icons.home_sharp,
           queryParameters: queryParameters,
         ),

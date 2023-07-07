@@ -1,6 +1,9 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
+import 'package:web_flutter/config/config.dart';
 import 'package:web_flutter/model/model.dart';
-import 'package:web_flutter/net-work/src/api/api.dart';
-import 'package:web_flutter/net-work/src/net-util/request_client.dart';
+import 'package:web_flutter/net-work/request.dart';
 
 class HomeRequest {
   static Future<List<UserModelEntity>?> getUser({
@@ -45,10 +48,18 @@ class HomeRequest {
   }
 
   static Future<dynamic> postAccount({
-    AccountModelEntity? params,
+    required String cookie,
+    required String dayMaxReport,
+    required String serverId,
   }) async {
     try {
+      var params = {
+        "cookie": cookie,
+        "day_max_report": dayMaxReport,
+        "server_id": serverId,
+      };
       var json = await requestClient.post(APIS.batchAccount, data: params);
+
       return json;
     } catch (e) {
       rethrow;
@@ -78,10 +89,49 @@ class HomeRequest {
       var params = {
         "reason": reason,
       };
-      var json = await requestClient.post(APIS.reason, data: params);
+
+      var json = await _dio.post(
+        APIS.reason,
+        data: _convertRequestData(params),
+      );
       return json;
     } catch (e) {
       rethrow;
     }
   }
+
+    static Future<dynamic> postAddServer({
+    required String iname,
+    required String location,
+    required String isp,
+  }) async {
+    try {
+      var params = {
+        "iname": iname,
+        "location": location,
+        "isp": isp,
+      };
+      var json = await _dio.post(
+        APIS.addServer,
+        data: _convertRequestData(params),
+      );
+      // var json = await requestClient.post(APIS.batchTask, data: params);
+      return json;
+    } catch (e) {
+      rethrow;
+    }
+  }
+}
+
+Dio _dio = Dio(
+  BaseOptions(
+    baseUrl: RequestConfig.url,
+    connectTimeout: const Duration(milliseconds: RequestConfig.connectTimeout),
+  ),
+);
+_convertRequestData(data) {
+  if (data != null) {
+    data = jsonDecode(jsonEncode(data));
+  }
+  return data;
 }

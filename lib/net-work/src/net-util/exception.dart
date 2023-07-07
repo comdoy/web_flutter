@@ -3,23 +3,23 @@ import 'package:dio/dio.dart';
 
 class ApiException implements Exception {
   static const unknownException = "未知错误";
-  final String? msg;
+  final String? message;
   final int? code;
   String? stackInfo;
 
-  ApiException([this.code, this.msg]);
+  ApiException([this.code, this.message]);
 
-  factory ApiException.fromDioError(DioError error) {
+  factory ApiException.fromDioError(DioException error) {
     switch (error.type) {
-      case DioErrorType.cancel:
+      case DioExceptionType.cancel:
         return BadRequestException(-1, "请求取消");
-      case DioErrorType.connectionTimeout:
+      case DioExceptionType.connectionTimeout:
         return BadRequestException(-1, "连接超时");
-      case DioErrorType.sendTimeout:
+      case DioExceptionType.sendTimeout:
         return BadRequestException(-1, "请求超时");
-      case DioErrorType.receiveTimeout:
+      case DioExceptionType.receiveTimeout:
         return BadRequestException(-1, "响应超时");
-      case DioErrorType.unknown:
+      case DioExceptionType.unknown:
         try {
           int? errCode = error.response?.statusCode;
           switch (errCode) {
@@ -61,7 +61,7 @@ class ApiException implements Exception {
   }
 
   factory ApiException.from(dynamic exception) {
-    if (exception is DioError) {
+    if (exception is DioException) {
       return ApiException.fromDioError(exception);
     }
     if (exception is ApiException) {

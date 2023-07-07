@@ -167,10 +167,11 @@ class _IHomeCellState extends State<IHomeCell> {
                                           });
                                           context.goNamed(
                                             model.namePath ??
-                                                AppRouters.siteSettingsPath,
+                                                AppRouters.addAccountNamed,
                                             queryParameters:
                                                 model.queryParameters ??
                                                     {
+                                                      "tab":"$index",
                                                       "serverId": "$indexs",
                                                     },
                                           );
@@ -194,7 +195,7 @@ class _IHomeCellState extends State<IHomeCell> {
                                       title: "退出登录",
                                       icon: Icons.power_settings_new,
                                       onPressed: () {
-                                        context.go(AppRouters.siteSettingsPath);
+                                        context.go(AppRouters.addAccountNamed);
                                       },
                                     ),
                                   ],
@@ -228,75 +229,6 @@ class _IHomeCellState extends State<IHomeCell> {
     var sp = await SpUtil.getInstance();
     await sp?.putInt("serverIndex", index);
     await sp?.putInt("domainId", id);
-  }
-
-  Widget _generateExpansionTileWidget(
-    List<ServersModel>? serverList,
-    String? apiName,
-  ) {
-    int index = serverList?.length ?? 0;
-    return ExpansionTile(
-      initiallyExpanded: true,
-      tilePadding: const EdgeInsets.all(0),
-      title: Padding(
-        padding: const EdgeInsets.only(left: 8),
-        child: Text(
-          "$index台",
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 15,
-          ),
-        ),
-      ),
-      collapsedIconColor: Colors.white,
-      children: List.generate(
-        serverList?.length ?? 0,
-        (index) {
-          int inde = index;
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 3),
-            child: _generateWidget(
-              serverList?[index].serverName ?? '',
-              inde == selectIndex,
-              onPressed: () {
-                setState(
-                  () {
-                    selectIndex = index;
-                    onss(index, serverList?[index].id ?? 0);
-                    indexs = index;
-                  },
-                );
-                context.goNamed(
-                  apiName ?? AppRouters.siteSettingsNamed,
-                  queryParameters: {"serverId": "${serverList?[index].id}"},
-                );
-                print({"serverId": "${serverList?[index].id}"});
-              },
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  /// 生成 ExpansionTile 下的 ListView 的单个组件
-  Widget _generateWidget(String title, bool isSelect,
-      {VoidCallback? onPressed}) {
-    /// 使用该组件可以使宽度撑满
-    return Tooltip(
-      margin: const EdgeInsets.only(left: 70),
-      textAlign: TextAlign.center,
-      message: title,
-      child: FractionallySizedBox(
-        widthFactor: 1,
-        child: ITextButton(
-          title: title,
-          onPressed: onPressed,
-          isSelect: isSelect,
-          padding: const EdgeInsets.symmetric(horizontal: 5),
-        ),
-      ),
-    );
   }
 }
 
